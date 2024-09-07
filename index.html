@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>XO Game</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background-image: linear-gradient(-45deg, #0400ff, #43e3ff 80%);
+		}
+
+		#first_page {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			/* display: none; */
+		}
+
+		#first_page h1,
+		#first_page button {
+			margin-top: 130px;
+			font-family: system-ui;
+			font-size: 45px;
+			font-weight: 600;
+		}
+
+		#first_page h1 {
+			font-size: 50px;
+		}
+
+		#first_page h1 .color_tic {
+			color: red;
+		}
+
+		#first_page h1 .color_tac {
+			color: #0400ff;
+		}
+
+		#first_page h1 .color_toc {
+			color: #00ff00;
+		}
+
+		#first_page button {
+			width: 270px;
+			height: 90px;
+			border: none;
+			background: #00ff00;
+			color: #000;
+			border-radius: 10px;
+			box-shadow: 4px 4px 8px #035e00;
+			cursor: pointer;
+			transition: 0.2s ease;
+		}
+
+		#first_page button:hover {
+			scale: 0.97;
+		}
+
+		#second_page {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			display: none;
+		}
+
+		#players {
+			width: 100%;
+			height: 60%;
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+			/* background-color: red; */
+			position: relative;
+		}
+
+		#players h1 {
+			font-size: 40px;
+			font-family: system-ui;
+			font-weight: 600;
+			color: #000;
+		}
+
+		#players input {
+			height: 50px;
+			width: 290px;
+			border: black solid 2px;
+			border-radius: 5px;
+			box-shadow: 4px 3px 2px #2e2e2e;
+			padding-left: 30px;
+			font-family: system-ui;
+			font-weight: 600;
+			outline: none;
+			background-color: transparent;
+		}
+
+		#players input::placeholder {
+			color: black;
+		}
+
+		#player_one,
+		#player_two {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 70px;
+		}
+
+		.sep {
+			height: 60%;
+			width: 3px;
+			background-color: black;
+		}
+
+		#confirm_name {
+			position: absolute;
+			bottom: 0;
+			height: 40px;
+			width: 100px;
+			font-size: large;
+			font-family: system-ui;
+			font-weight: 500;
+			border: none;
+			border-radius: 8px;
+			background: red;
+			color: white;
+			cursor: pointer;
+			z-index: 10;
+		}
+
+		#choose {
+			width: 100%;
+			height: 40%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 30px;
+			opacity: 0;
+			cursor: default;
+			font-weight: 600;
+		}
+
+		#choose p {
+			font-size: 30px;
+			font-family: system-ui;
+			font-weight: 600;
+		}
+
+		#choose button {
+			height: 50px;
+			width: 50px;
+			font-family: system-ui;
+			font-weight: 700;
+			font-size: 20px;
+			margin: 0px 20px;
+			border: 2px solid #000;
+			cursor: pointer;
+			transition: 0.2s;
+		}
+
+		#button_x {
+			border: red solid 2px;
+			color: #000;
+			background-color: red;
+			border-radius: 5px;
+		}
+
+		#button_o {
+			border: #43e3ff solid 2px;
+			color: #000;
+			background-color: #43e3ff;
+			border-radius: 5px;
+		}
+
+		#choose button:hover {
+			border-radius: 50%;
+		}
+
+		#third_page {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 5px;
+			display: none;
+		}
+
+		#third_page h2 {
+			font-family: system-ui;
+			font-weight: 600;
+			font-size: 30px;
+			margin-top: 20px;
+			margin-bottom: 30px;
+		}
+
+		.line1,
+		.line2,
+		.line3 {
+			display: flex;
+			gap: 5px;
+		}
+
+		.line1 div,
+		.line2 div,
+		.line3 div {
+			width: 120px;
+			height: 120px;
+			background: #00ff00;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 70px;
+			font-family: system-ui;
+			font-weight: 500;
+			cursor: pointer;
+			border: 2px solid black;
+			border-radius: 10px;
+		}
+
+		#restart {
+			width: 120px;
+			height: 50px;
+			margin-top: 40px;
+			font-size: larger;
+			font-family: system-ui;
+			font-weight: 700;
+			color: #fff;
+			background-color: red;
+			border: none;
+			border-radius: 5px;
+			box-shadow: 4px 3px 2px #440000;
+			cursor: pointer;
+			transition: 8ms;
+			display: none;
+		}
+
+		#restart:hover {
+			scale: 1.025;
+		}
+
+		@media screen and (min-width: 300px) and (max-width: 720px) {
+			#first_page button {
+				width: 170px;
+				height: 60px;
+				font-size: 25px;
+				border-radius: 8px;
+				margin-top: 230px;
+			}
+
+			.sep {
+				display: none;
+			}
+
+			#players {
+				flex-direction: column;
+				justify-content: center;
+				gap: 60px;
+			}
+
+			#player_one,
+			#player_two {
+				gap: 0px;
+			}
+
+			#players input {
+				width: 290px;
+				padding-left: 25px;
+				font-size: 16px;
+			}
+
+			#players h1 {
+				font-size: 38px;
+				margin-bottom: 30px;
+			}
+
+			#players button {
+				bottom: -50px;
+			}
+
+			#choose {
+				height: 30%;
+				margin-top: 40px;
+			}
+
+			#third_page h2 {
+				margin-top: 90px;
+				margin-bottom: 50px;
+			}
+
+			.line1 div,
+			.line2 div,
+			.line3 div {
+				width: 100px;
+				height: 100px;
+				font-size: 40px;
+			}
+
+			#restart {
+				width: 120px;
+				height: 50px;
+				margin-top: 50px;
+				font-size: larger;
+				font-family: system-ui;
+				font-weight: 700;
+				color: #fff;
+				background-color: red;
+				border: none;
+				border-radius: 5px;
+				box-shadow: 4px 3px 2px #440000;
+				cursor: pointer;
+				transition: 8ms;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div id="first_page">
+		<h1>
+			<span class="color_tic">Tic</span>
+			<span class="color_tac">Tac</span>
+			<span class="color_toc">Toe</span>
+		</h1>
+		<button id="start">START</button>
+	</div>
+
+
+	<div id="second_page">
+		<div id="players">
+			<div id="player_one">
+				<h1>Player 1</h1>
+				<input type="text" id="name_player1" title="Enter your name" placeholder="Enter your name...">
+			</div>
+			<div class="sep"></div>
+			<div id="player_two">
+				<h1>Player 2</h1>
+				<input type="text" id="name_player2" title="Enter your name" placeholder="Enter your name...">
+			</div>
+			<button id="confirm_name">Confirm</button>
+		</div>
+		<div id="choose">
+			<p id="prg">Player 1, choose :</p>
+			<div>
+				<button id="button_x">X</button>
+				or
+				<button id="button_o">O</button>
+			</div>
+		</div>
+	</div>
+	<div id="third_page">
+		<h2 id="title"></h2>
+		<div class="line1">
+			<div onclick="fill(this.id)" id="square1"></div>
+			<div onclick="fill(this.id)" id="square2"></div>
+			<div onclick="fill(this.id)" id="square3"></div>
+		</div>
+		<div class="line2">
+			<div onclick="fill(this.id)" id="square4"></div>
+			<div onclick="fill(this.id)" id="square5"></div>
+			<div onclick="fill(this.id)" id="square6"></div>
+		</div>
+		<div class="line3">
+			<div onclick="fill(this.id)" id="square7"></div>
+			<div onclick="fill(this.id)" id="square8"></div>
+			<div onclick="fill(this.id)" id="square9"></div>
+		</div>
+		<button id="restart">Restart</button>
+	</div>
+	<script src="script.js"></script>
+</body>
+
+</html>
